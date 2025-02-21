@@ -1,29 +1,42 @@
 ﻿@model Movie
 
 <form method="post">
-
-    <label asp-for="Category">Category</label>
-    <input asp-for="Category" required />
+    @* Hidden field to store MovieId *@
+    <input type="hidden" asp-for="MovieId"/>
     <br />
+
+    @* Dropdown for selecting a category *@
+    <select asp-for="CategoryId">
+        <option value="">Select a Category</option>
+        @* Populate dropdown with categories from ViewBag *@
+        @foreach (Category c in ViewBag.Categories) 
+        {
+            <option value="@c.CategoryId">@c.CategoryName</option>
+        }
+    </select>
+    <br />
+
+    @* Input fields for movies. Some are required *@
     <label asp-for="Title">Title</label>
     <input asp-for="Title" required />
     <br />
     <label asp-for="Year">Year</label>
-    <input asp-for="Year" required />
+    <input asp-for="Year" type="number" min="1888" required /> @* Input field for movie year, ensuring it is not earlier than 1888 *@
     <br />
     <label asp-for="Director">Director</label>
-    <input asp-for="Director" required />
+    <input asp-for="Director"/>
     <br />
-    <label asp-for="Rating">Rating</label>
-    <select asp-for="Rating" required>
+    <label asp-for="Rating">Rating</label> @* Dropdown for selecting a rating *@
+    <select asp-for="Rating">
         <option value="G">G</option>
         <option value="PG">PG</option>
         <option value="PG-13">PG-13</option>
         <option value="R">R</option>
     </select>
     <br />
-    <label asp-for="Edited">Edited?</label>
-    <select asp-for="Edited">
+    <label asp-for="Edited">Edited?</label> @* Dropdown for specifying whether the movie is edited *@
+    <select asp-for="Edited" required>
+        <option value=""></option>
         <option value="true">Yes</option>
         <option value="false">No</option>
     </select>
@@ -31,9 +44,18 @@
     <label asp-for="LentTo">Lent To:</label>
     <input asp-for="LentTo" />
     <br />
-    <label asp-for="Notes">Notes</label>
-    <input asp-for="Notes" maxlength="25" />
+    <label asp-for="CopiedToPlex">Copied To Plex?</label> @* Dropdown for "Copied To Plex" *@
+    <select asp-for="CopiedToPlex" required>
+        <option value=""></option>
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
     <br />
+    <label asp-for="Notes">Notes</label>
+    <input asp-for="Notes" maxlength="25" /> @* Input field for notes with a character limit of 25 *@
+    <br />
+
+    @* Submit button to save the movie details *@
     <button type="submit">Submit Movie</button>
 
 </form>
